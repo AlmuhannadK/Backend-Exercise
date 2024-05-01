@@ -1,6 +1,7 @@
 package com.task.backendtask.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class TodoList {
     private Long id;
 
     @Column
+    @NotBlank(message = "title must not be blank")
     private String title;
 
     @OneToMany(mappedBy = "todoList")
