@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "app_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,7 +40,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TodoList> todoListList = new ArrayList<>();
+    private List<TodoList> todoLists = new ArrayList<>();
 }
 
 

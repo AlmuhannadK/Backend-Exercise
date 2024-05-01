@@ -24,6 +24,7 @@ public class TodoList {
     @NotBlank(message = "title must not be blank")
     private String title;
 
+
     @OneToMany(mappedBy = "todoList")
     private List<TodoItem> todoItems = new ArrayList<>();
 

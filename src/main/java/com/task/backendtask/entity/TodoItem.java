@@ -37,10 +37,10 @@ public class TodoItem {
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
+
     @ManyToOne
     @JoinColumn(name = "todo_list_id")
     private TodoList todoList;
-
 
 }
 
