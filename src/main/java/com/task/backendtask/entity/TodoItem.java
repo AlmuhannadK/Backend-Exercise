@@ -46,6 +46,5 @@ public class TodoItem {
 
 enum Status {
     PENDING,
-    IN_PROGRESS,
     COMPLETED
 }

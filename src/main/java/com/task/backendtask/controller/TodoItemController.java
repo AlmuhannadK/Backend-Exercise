@@ -1,7 +1,8 @@
 package com.task.backendtask.controller;
 
 import com.task.backendtask.entity.TodoItem;
-import com.task.backendtask.repository.ToDoItemRepository;
+import com.task.backendtask.repository.TodoItemRepository;
+import com.task.backendtask.service.TodoItemService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +16,18 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "/api/v1/todos")
 @Validated
-public class TodoController {
+public class TodoItemController {
+
+    private final TodoItemService todoItemService;
 
     @Autowired
-    private ToDoItemRepository todoItemRepository;
-
-
+    public TodoItemController(TodoItemService todoItemService) {
+        this.todoItemService = todoItemService;
+    }
     // Get all todoItems (admin)
     @GetMapping
     public ResponseEntity<List<TodoItem>> getAllTodoItems() {
-        List<TodoItem> todoItems = todoItemRepository.findAll();
+        List<TodoItem> todoItems = todoItemService.getAllTodoItems();
         if (todoItems.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -32,28 +35,19 @@ public class TodoController {
     }
 
     // Get todoItem by id (user)
-    @GetMapping(path = "/{todoId}")
-    public ResponseEntity<Optional<TodoItem>> getTodoItem(@PathVariable @Min(1) long todoId) {
-        Optional<TodoItem> todoItem = todoItemRepository.findById(todoId);
+    @GetMapping(path = "/{todoItemId}")
+    public ResponseEntity<Optional<TodoItem>> getTodoItem(@PathVariable @Min(1) Long todoItemId) {
+        Optional<TodoItem> todoItem = todoItemService.getTodoItem(todoItemId);
         if (todoItem.isPresent()) {
             return ResponseEntity.ok(todoItem);
         }
         return ResponseEntity.notFound().build();
     }
 
-
-    // create a todoItem
     @PostMapping()
     public ResponseEntity<TodoItem> createTodoItem(@Valid @RequestBody TodoItem todoItem) {
-        if (todoItem == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        todoItemRepository.save(todoItem);
-        return ResponseEntity.ok(todoItem);
+        TodoItem createdTodoItem = todoItemService.createTodoItem(todoItem);
+        return ResponseEntity.ok(createdTodoItem);
     }
-
-    // create a todoList
-
-
 
 }

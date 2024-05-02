@@ -1,7 +1,8 @@
-package com.task.backendtask.service;
+package com.task.backendtask.service.implementation;
 
 import com.task.backendtask.entity.User;
 import com.task.backendtask.repository.UserRepository;
+import com.task.backendtask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

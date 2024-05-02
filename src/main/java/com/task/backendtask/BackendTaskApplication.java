@@ -1,7 +1,7 @@
 package com.task.backendtask;
 
 import com.task.backendtask.entity.User;
-import com.task.backendtask.repository.ToDoItemRepository;
+import com.task.backendtask.repository.TodoItemRepository;
 import com.task.backendtask.repository.TodoListRepository;
 import com.task.backendtask.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +20,7 @@ public class BackendTaskApplication {
 
     @Bean
     public CommandLineRunner initData(UserRepository userRepository,
-                                      ToDoItemRepository toDoItemRepository,
+                                      TodoItemRepository toDoItemRepository,
                                       TodoListRepository todoListRepository) {
         return args -> {
             // mock data
