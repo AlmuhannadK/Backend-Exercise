@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "app_users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,13 +39,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TodoList> todoLists = new ArrayList<>();
 
-
-    // for testing. will remove later
-    public User(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
 }
 
 

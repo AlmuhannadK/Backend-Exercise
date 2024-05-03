@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "todo_lists")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

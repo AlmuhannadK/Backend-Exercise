@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
-@Table
+@Table(name = "todo_items")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -35,13 +35,14 @@ public class TodoItem {
     @NotNull(message = "due date cannot be null")
     private LocalDate dueDate;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt = Instant.now();
 
 
     @ManyToOne
     @JoinColumn(name = "todo_list_id")
     private TodoList todoList;
+
 
 }
 
