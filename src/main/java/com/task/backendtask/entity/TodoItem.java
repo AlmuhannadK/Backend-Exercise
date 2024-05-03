@@ -1,5 +1,6 @@
 package com.task.backendtask.entity;
 
+import com.task.backendtask.entity.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -44,7 +45,3 @@ public class TodoItem {
 
 }
 
-enum Status {
-    PENDING,
-    COMPLETED
-}
