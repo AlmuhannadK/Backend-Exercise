@@ -21,20 +21,26 @@ public class TodoListController {
         this.todoListService = todoListService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<TodoList>> getAllTodoLists() {
+        return ResponseEntity.ok(todoListService.getAllTodoLists());
+    }
+
     @GetMapping(path = "/{todoListId}")
     public ResponseEntity<TodoList> getTodoListById(@PathVariable @Min(1) Long todoListId) {
         TodoList todoList = todoListService.getTodoListById(todoListId);
         return ResponseEntity.ok(todoList);
     }
 
-    // get all lists
-    @GetMapping
-    public ResponseEntity<List<TodoList>> getAllTodoLists() {
-        return ResponseEntity.ok(todoListService.getAllTodoLists());
-    }
 
     @PostMapping
     public ResponseEntity<TodoList> createTodoList(@Valid @RequestBody TodoList todoList) {
         return ResponseEntity.ok(todoListService.createTodoList(todoList));
+    }
+
+    @GetMapping(path = "/search")
+    public ResponseEntity<TodoList> getTodoListById(@RequestParam String listTitle) {
+        TodoList todoList = todoListService.getTodoListByTitle(listTitle);
+        return ResponseEntity.ok(todoList);
     }
 }

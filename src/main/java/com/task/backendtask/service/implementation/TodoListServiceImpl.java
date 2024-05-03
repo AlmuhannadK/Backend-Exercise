@@ -34,6 +34,11 @@ public class TodoListServiceImpl implements TodoListService {
     }
 
     @Override
+    public TodoList getTodoListByTitle(String listTitle) {
+        return todoListRepository.findTodoListByTitleIgnoreCase(listTitle);
+    }
+
+    @Override
     public List<TodoList> getAllTodoLists() {
         return todoListRepository.findAll();
     }

@@ -43,4 +43,9 @@ public class UserController {
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
         return ResponseEntity.ok(userService.createUser(user));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<User> getUserByUsername(@RequestParam(value = "username") String username) {
+        return ResponseEntity.ok(userService.getUserByUsername(username));
+    }
 }

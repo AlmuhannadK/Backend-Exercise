@@ -8,6 +8,8 @@ public interface TodoListService {
 
     public TodoList getTodoListById(Long todoListId);
 
+    public TodoList getTodoListByTitle(String listTitle);
+
     public List<TodoList> getAllTodoLists();
 
     public TodoList createTodoList(TodoList todoList);

@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TodoListRepository extends JpaRepository<TodoList, Long> {
+
+    //TodoList findByTitleContainingIgnoreCase(String title);
+
+    TodoList findTodoListByTitleIgnoreCase(String title);
 }
