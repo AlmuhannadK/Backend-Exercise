@@ -11,10 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "app_user")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-//@RequiredArgsConstructor
+@AllArgsConstructor
 
 public class User {
 

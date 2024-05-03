@@ -1,7 +1,7 @@
 package com.task.backendtask.service;
 
+import com.task.backendtask.dto.StatusUpdateDTO;
 import com.task.backendtask.entity.TodoItem;
-import com.task.backendtask.entity.enums.Status;
 
 
 
@@ -16,5 +16,5 @@ public interface TodoItemService {
 
     public TodoItem createTodoItem(TodoItem todoItem);
 
-    public TodoItem updateTodoItemStatus(Long todoItemId, Status status);
+    public TodoItem updateTodoItemStatus(Long todoItemId, StatusUpdateDTO status);
 }

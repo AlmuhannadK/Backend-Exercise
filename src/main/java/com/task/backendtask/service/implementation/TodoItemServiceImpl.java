@@ -1,5 +1,6 @@
 package com.task.backendtask.service.implementation;
 
+import com.task.backendtask.dto.StatusUpdateDTO;
 import com.task.backendtask.entity.TodoItem;
 import com.task.backendtask.entity.enums.Status;
 import com.task.backendtask.repository.TodoItemRepository;
@@ -42,10 +43,10 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     // TODO: add better exception handling later
     @Override
-    public TodoItem updateTodoItemStatus(Long todoItemId, Status status) {
+    public TodoItem updateTodoItemStatus(Long todoItemId, StatusUpdateDTO status) {
         Optional<TodoItem> optionalTodoItem = Optional.ofNullable(todoItemRepository.findById(todoItemId).orElseThrow(() -> new NoSuchElementException()));
         TodoItem todoItem = optionalTodoItem.get();
-        todoItem.setStatus(status);
+        todoItem.setStatus(status.getStatus());
         return todoItemRepository.save(todoItem);
     }
 

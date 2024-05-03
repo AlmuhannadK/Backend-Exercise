@@ -1,5 +1,6 @@
 package com.task.backendtask.controller;
 
+import com.task.backendtask.dto.StatusUpdateDTO;
 import com.task.backendtask.entity.TodoItem;
 import com.task.backendtask.entity.enums.Status;
 import com.task.backendtask.repository.TodoItemRepository;
@@ -52,7 +53,7 @@ public class TodoItemController {
     }
 
     @PostMapping("/{todoItemId}/status")
-    public ResponseEntity<TodoItem> updateTodoItemStatus(@PathVariable Long todoItemId, @RequestBody Status status) {
+    public ResponseEntity<TodoItem> updateTodoItemStatus(@PathVariable Long todoItemId, @Valid @RequestBody StatusUpdateDTO status) {
         try {
             TodoItem todoItem = todoItemService.updateTodoItemStatus(todoItemId, status);
             return ResponseEntity.ok(todoItem);
