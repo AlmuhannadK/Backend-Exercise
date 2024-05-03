@@ -38,6 +38,7 @@ public class UserController {
 
 
     // either register or admin adds a user
+    // TODO: need to create user registration DTO
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){
         return ResponseEntity.ok(userService.createUser(user));

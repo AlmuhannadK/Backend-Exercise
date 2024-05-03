@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/v1/todos")
+@RequestMapping(path = "/api/v1/todo-items")
 @Validated
 public class TodoItemController {
 
