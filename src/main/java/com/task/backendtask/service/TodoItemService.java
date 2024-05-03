@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface TodoItemService {
 
-    public Optional<TodoItem> getTodoItem(Long todoItemId);
+    public Optional<TodoItem> getTodoItemById(Long todoItemId);
 
     public List<TodoItem> getAllTodoItems();
 

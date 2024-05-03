@@ -38,8 +38,8 @@ public class TodoItemController {
 
     // Get todoItem by id (user)
     @GetMapping(path = "/{todoItemId}")
-    public ResponseEntity<Optional<TodoItem>> getTodoItem(@PathVariable @Min(1) Long todoItemId) {
-        Optional<TodoItem> todoItem = todoItemService.getTodoItem(todoItemId);
+    public ResponseEntity<Optional<TodoItem>> getTodoItemById(@PathVariable @Min(1) Long todoItemId) {
+        Optional<TodoItem> todoItem = todoItemService.getTodoItemById(todoItemId);
         if (todoItem.isPresent()) {
             return ResponseEntity.ok(todoItem);
         }
