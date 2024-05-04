@@ -6,11 +6,8 @@ import java.util.List;
 
 public interface TodoListService {
 
-    public TodoList getTodoListById(Long todoListId);
-
-    public TodoList getTodoListByTitle(String listTitle);
-
-    public List<TodoList> getAllTodoLists();
-
-    public TodoList createTodoList(TodoList todoList);
+     TodoList getTodoListById(Long todoListId);
+     TodoList getTodoListByTitle(String listTitle);
+     List<TodoList> getAllTodoLists();
+     TodoList createTodoList(TodoList todoList);
 }

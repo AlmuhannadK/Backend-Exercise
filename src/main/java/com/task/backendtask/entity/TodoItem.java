@@ -25,7 +25,7 @@ public class TodoItem {
     private Long id;
 
     @Column
-    @NotBlank(message = "must not be blank")
+    @NotNull(message = "must not be blank")
     @Size(min = 3, max = 50)
     private String description;
 

@@ -10,11 +10,8 @@ import java.util.Optional;
 
 public interface TodoItemService {
 
-    public Optional<TodoItem> getTodoItemById(Long todoItemId);
-
-    public List<TodoItem> getAllTodoItems();
-
-    public TodoItem createTodoItem(TodoItem todoItem);
-
-    public TodoItem updateTodoItemStatus(Long todoItemId, StatusUpdateDTO status);
+     Optional<TodoItem> getTodoItemById(Long todoItemId);
+     List<TodoItem> getAllTodoItems();
+     TodoItem createTodoItem(TodoItem todoItem);
+     TodoItem updateTodoItemStatus(Long todoItemId, StatusUpdateDTO status);
 }

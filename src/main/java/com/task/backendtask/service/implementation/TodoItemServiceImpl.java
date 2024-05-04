@@ -23,6 +23,7 @@ public class TodoItemServiceImpl implements TodoItemService {
         this.todoItemRepository = todoItemRepository;
     }
 
+
     @Override
     public Optional<TodoItem> getTodoItemById(Long todoItemId) {
         return todoItemRepository.findById(todoItemId);

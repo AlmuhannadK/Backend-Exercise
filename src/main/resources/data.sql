@@ -1,7 +1,7 @@
 -- Insert users
-INSERT INTO app_users (username, password, email) VALUES ('ali', 'password123', 'ali@gmail.com' );
-INSERT INTO app_users (username, password, email) VALUES ('bader', 'password456', 'bader@gmail.com' );
-INSERT INTO app_users (username, password, email) VALUES ('khalid', 'password789', 'khalid@gmail.com' );
+INSERT INTO app_users (username, password, role) VALUES ('admin', 'admin123', 'ADMIN');
+INSERT INTO app_users (username, password, role) VALUES ('bader', 'password456', 'USER');
+INSERT INTO app_users (username, password, role) VALUES ('khalid', 'password789', 'USER');
 
 -- Insert lists
 INSERT INTO todo_lists (title, user_id) VALUES ('Home Chores', 1);
