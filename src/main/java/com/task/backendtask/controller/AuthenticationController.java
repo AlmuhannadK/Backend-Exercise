@@ -1,6 +1,7 @@
 package com.task.backendtask.controller;
 
 import com.task.backendtask.dto.AuthenticationResponse;
+import com.task.backendtask.dto.UserRegistrationDTO;
 import com.task.backendtask.entity.User;
 import com.task.backendtask.service.implementation.AuthenticationService;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class AuthenticationController {
 
     // handle registration
     @PostMapping("/registration")
-    public ResponseEntity<AuthenticationResponse> registerUser(@Valid @RequestBody User user) {
+    public ResponseEntity<AuthenticationResponse> registerUser(@Valid @RequestBody UserRegistrationDTO user) {
         return ResponseEntity.ok(authenticationService.register(user));
     }
 

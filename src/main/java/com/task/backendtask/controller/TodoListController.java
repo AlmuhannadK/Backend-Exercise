@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class TodoListController {
         return ResponseEntity.ok(todoListService.getAllTodoLists());
     }
 
-    @GetMapping(path = "/{todoListId}")
+    @GetMapping(path = "/admin/{todoListId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<TodoList> getTodoListById(@PathVariable @Min(1) Long todoListId) {
         TodoList todoList = todoListService.getTodoListById(todoListId);
         return ResponseEntity.ok(todoList);
@@ -39,7 +41,7 @@ public class TodoListController {
     }
 
     @GetMapping(path = "/search")
-    public ResponseEntity<TodoList> getTodoListById(@RequestParam String listTitle) {
+    public ResponseEntity<TodoList> getTodoListByTitle(@RequestParam String listTitle) {
         TodoList todoList = todoListService.getTodoListByTitle(listTitle);
         return ResponseEntity.ok(todoList);
     }

@@ -7,20 +7,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
@@ -35,17 +35,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+        //noinspection removal
         return http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(toH2Console())
+                        .disable()
+                )
                 .authorizeHttpRequests(
                         req -> req
-                                .requestMatchers("/api/v1/auth/**")
+                                .requestMatchers("/api/v1/auth/**", "/h2-console/**")
                                 .permitAll()
-                                .requestMatchers(toH2Console())
-                                .permitAll()
+                                .requestMatchers("/api/v1/users/admin/**", "/api/v1/todo-items/admin/**", "/api/v1/todo-lists/admin/**")
+                                .hasAuthority("ADMIN")
                                 .anyRequest() // any other req
                                 .authenticated() // must be authenticated
                 )
+                .headers(headers -> headers.frameOptions().sameOrigin())
 
                 .userDetailsService(userDetailsServiceImpl)
                 .sessionManagement(session -> session

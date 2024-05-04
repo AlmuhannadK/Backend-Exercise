@@ -1,6 +1,7 @@
 package com.task.backendtask.service.implementation;
 
 import com.task.backendtask.dto.AuthenticationResponse;
+import com.task.backendtask.dto.UserRegistrationDTO;
 import com.task.backendtask.entity.User;
 import com.task.backendtask.entity.enums.Role;
 import com.task.backendtask.repository.UserRepository;
@@ -30,7 +31,7 @@ public class AuthenticationService {
 
 
 
-    public AuthenticationResponse register(User request) {
+    public AuthenticationResponse register(UserRegistrationDTO request) {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));

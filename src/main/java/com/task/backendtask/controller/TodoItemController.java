@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,10 @@ public class TodoItemController {
     public TodoItemController(TodoItemService todoItemService) {
         this.todoItemService = todoItemService;
     }
-    // Get all todoItems (admin)
-    @GetMapping
+
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<TodoItem>> getAllTodoItems() {
         List<TodoItem> todoItems = todoItemService.getAllTodoItems();
         if (todoItems.isEmpty()) {
@@ -36,7 +39,6 @@ public class TodoItemController {
         return ResponseEntity.ok(todoItems);
     }
 
-    // Get todoItem by id (user)
     @GetMapping(path = "/{todoItemId}")
     public ResponseEntity<Optional<TodoItem>> getTodoItemById(@PathVariable @Min(1) Long todoItemId) {
         Optional<TodoItem> todoItem = todoItemService.getTodoItemById(todoItemId);

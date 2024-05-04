@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,28 +25,31 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable @Min(1) Long userId ) {
-        Optional<User> user = userService.getUserById(userId);
-        return ResponseEntity.ok(user.orElse(null));
+    @PostMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+        return ResponseEntity.ok(userService.createUser(user));
     }
 
 
-    // either register or admin adds a user
-    // TODO: need to create user registration DTO
-    @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        return ResponseEntity.ok(userService.createUser(user));
+    @GetMapping("/admin/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<User> getUserById(@PathVariable @Min(1) Long userId ) {
+        Optional<User> user = userService.getUserById(userId);
+        return ResponseEntity.ok(user.orElse(null));
     }
 
     @GetMapping("/search")
     public ResponseEntity<Optional<User>> getUserByUsername(@RequestParam(value = "username") String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
+
+
 }
