@@ -1,5 +1,6 @@
 package com.task.backendtask.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.task.backendtask.entity.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -41,6 +42,7 @@ public class TodoItem {
 
     @ManyToOne
     @JoinColumn(name = "todo_list_id")
+    @JsonBackReference
     private TodoList todoList;
 
 

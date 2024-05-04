@@ -1,5 +1,7 @@
 package com.task.backendtask.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -26,9 +28,11 @@ public class TodoList {
 
 
     @OneToMany(mappedBy = "todoList")
+    @JsonManagedReference
     private List<TodoItem> todoItems = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 }
