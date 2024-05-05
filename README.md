@@ -1,23 +1,23 @@
-# Todo List API
+# Todo with Spring Boot
 
 ## Overview
-This project is a Todo List API developed using Spring Boot. It provides endpoints for managing todo lists and their items and includes user authentication and authorization to ensure that users can only access their data.
+This project is a Todo List API developed using Spring Boot. It provides endpoints for managing todo lists and their items and includes user authentication and authorization to ensure that users can only access their data
 
 ## Features
-- User registration and authentication.
-- CRUD operations for Todo lists and Todo items.
-- Secure access with JWT (JSON Web Tokens).
+- User registration and authentication
+- Basic operations on Todo lists and Todo items and Users
+- Secure access with JWT (JSON Web Tokens)
 - Global exception handling.
 
 ## Technologies
 - **Spring Boot 3 (version 3.2.5)**
 - **Spring Security with JWT**: for authentication and authorization
 - **H2 Database**: In-memory database for testing
-- **Maven**: dependency management and project build.
-- **Lombok**: To reduce boilerplate code.
+- **Maven**: dependency management and project build
+- **Lombok**: To reduce boilerplate code
 
 ## Entity Diagram
-- Visual representation of the relationship between entities in the project
+- Simple visual representation of the relationships between entities in the project
 
 ![Todo ER Diagram](https://github.com/AlmuhannadK/Backend-Exercise/assets/47474960/c01e031a-bb29-40b4-a44e-8b6d2d633507)
 
@@ -40,9 +40,8 @@ This project is a Todo List API developed using Spring Boot. It provides endpoin
 
 # API Endpoints
 
-## Authentication Controller
+## Authentication Controller  (/api/v1/auth)
 
-## /api/v1/auth
 
 ### Register User
 - **POST /registration**
@@ -68,9 +67,8 @@ This project is a Todo List API developed using Spring Boot. It provides endpoin
       ```
     - Response: `200 OK` with JWT token.
 
-## User Controller 
+## User Controller (api/v1/users)
 
-## api/v1/users
 
 ### Get All Users (Admin only)
 - **GET /admin**
@@ -107,9 +105,8 @@ This project is a Todo List API developed using Spring Boot. It provides endpoin
   - Response: `200 OK` with user details or `404 Not Found` if not found for admin, otherwise `403 Forbidden`
 
 
-## Todo Lists Controller
+## Todo Lists Controller (/api/v1/todo-list)
 
-## /api/v1/todo-list
 
 ### Get All Todo Lists
 - **GET**
@@ -186,6 +183,7 @@ This project is a Todo List API developed using Spring Boot. It provides endpoin
 ## Future Enhancements
 
 some feature that I would like to add in the near future.
+
 ### DTOs 
 
 - Use Data Transfer Objects (DTOs) for all req & res in the controller and service layers
