@@ -6,12 +6,11 @@ import com.task.backendtask.entity.TodoItem;
 
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TodoItemService {
 
-     Optional<TodoItem> getTodoItemById(Long todoItemId);
+     TodoItem getTodoItemById(Long todoItemId);
      List<TodoItem> getAllTodoItems();
-     TodoItem createTodoItem(TodoItem todoItem);
+     TodoItem createTodoItem(Long todoListId, TodoItem todoItem);
      TodoItem updateTodoItemStatus(Long todoItemId, StatusUpdateDTO status);
 }

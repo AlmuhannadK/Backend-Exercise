@@ -50,7 +50,7 @@ public class SecurityConfig {
                                 .anyRequest() // any other req
                                 .authenticated() // must be authenticated
                 )
-                .headers(headers -> headers.frameOptions().sameOrigin())
+                .headers(headers -> headers.frameOptions().sameOrigin()) // fix for h2-console
 
                 .userDetailsService(userDetailsServiceImpl)
                 .sessionManagement(session -> session

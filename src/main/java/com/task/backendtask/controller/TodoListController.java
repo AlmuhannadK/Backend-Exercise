@@ -35,14 +35,14 @@ public class TodoListController {
     }
 
 
-    @PostMapping
-    public ResponseEntity<TodoList> createTodoList(@Valid @RequestBody TodoList todoList) {
-        return ResponseEntity.ok(todoListService.createTodoList(todoList));
-    }
-
     @GetMapping(path = "/search")
     public ResponseEntity<TodoList> getTodoListByTitle(@RequestParam String listTitle) {
         TodoList todoList = todoListService.getTodoListByTitle(listTitle);
         return ResponseEntity.ok(todoList);
+    }
+
+    @PostMapping
+    public ResponseEntity<TodoList> createTodoList(@Valid @RequestBody TodoList todoList) {
+        return ResponseEntity.ok(todoListService.createTodoList(todoList));
     }
 }

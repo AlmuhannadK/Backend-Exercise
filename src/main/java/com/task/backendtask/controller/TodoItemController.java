@@ -2,8 +2,6 @@ package com.task.backendtask.controller;
 
 import com.task.backendtask.dto.StatusUpdateDTO;
 import com.task.backendtask.entity.TodoItem;
-import com.task.backendtask.entity.enums.Status;
-import com.task.backendtask.repository.TodoItemRepository;
 import com.task.backendtask.service.TodoItemService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -14,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1/todo-items")
@@ -40,17 +37,14 @@ public class TodoItemController {
     }
 
     @GetMapping(path = "/{todoItemId}")
-    public ResponseEntity<Optional<TodoItem>> getTodoItemById(@PathVariable @Min(1) Long todoItemId) {
-        Optional<TodoItem> todoItem = todoItemService.getTodoItemById(todoItemId);
-        if (todoItem.isPresent()) {
+    public ResponseEntity<TodoItem> getTodoItemById(@PathVariable @Min(1) Long todoItemId) {
+        TodoItem todoItem = todoItemService.getTodoItemById(todoItemId);
             return ResponseEntity.ok(todoItem);
-        }
-        return ResponseEntity.notFound().build();
     }
 
-    @PostMapping()
-    public ResponseEntity<TodoItem> createTodoItem(@Valid @RequestBody TodoItem todoItem) {
-        TodoItem createdTodoItem = todoItemService.createTodoItem(todoItem);
+    @PostMapping("/{todoListId}/items")
+    public ResponseEntity<TodoItem> createTodoItem(@PathVariable Long todoListId ,@Valid @RequestBody TodoItem todoItem) {
+        TodoItem createdTodoItem = todoItemService.createTodoItem(todoListId, todoItem);
         return ResponseEntity.ok(createdTodoItem);
     }
 

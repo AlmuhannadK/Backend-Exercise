@@ -1,36 +1,38 @@
 package com.task.backendtask.service.implementation;
 
 import com.task.backendtask.entity.TodoList;
+import com.task.backendtask.entity.User;
 import com.task.backendtask.repository.TodoListRepository;
+import com.task.backendtask.repository.UserRepository;
 import com.task.backendtask.service.TodoListService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class TodoListServiceImpl implements TodoListService {
 
 
     private final TodoListRepository todoListRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TodoListServiceImpl(TodoListRepository todoListRepository) {
+    public TodoListServiceImpl(TodoListRepository todoListRepository, UserRepository userRepository) {
         this.todoListRepository = todoListRepository;
+        this.userRepository = userRepository;
     }
 
 
     @Override
     public TodoList getTodoListById(Long todoListId) {
-        Optional<TodoList> optional = todoListRepository.findById(todoListId);
-        if (optional.isPresent()) {
-            TodoList todoList =  optional.get();
-            return todoList;
-        }
-        // throw exception?
-        // TODO: handle this null later
-        return null;
+        return todoListRepository.findById(todoListId).orElseThrow(() -> new NoSuchElementException("List not found"));
     }
 
     @Override
@@ -44,7 +46,13 @@ public class TodoListServiceImpl implements TodoListService {
     }
 
     @Override
+    @Transactional
     public TodoList createTodoList(TodoList todoList) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        User user = userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        todoList.setUser(user);
         return todoListRepository.save(todoList);
     }
 }

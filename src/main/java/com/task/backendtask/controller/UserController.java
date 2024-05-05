@@ -41,9 +41,9 @@ public class UserController {
 
     @GetMapping("/admin/{userId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<User> getUserById(@PathVariable @Min(1) Long userId ) {
-        Optional<User> user = userService.getUserById(userId);
-        return ResponseEntity.ok(user.orElse(null));
+    public ResponseEntity<User> getUserById(@Valid @PathVariable @Min(1) Long userId ) {
+        User user = userService.getUserById(userId);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/search")

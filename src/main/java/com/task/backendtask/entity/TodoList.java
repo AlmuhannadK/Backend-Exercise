@@ -36,4 +36,9 @@ public class TodoList {
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
+
+    public void addTodoItem(TodoItem todoItem) {
+        todoItems.add(todoItem);
+        todoItem.setTodoList(this);
+    }
 }

@@ -43,6 +43,12 @@ public class User implements UserDetails {
     @JsonManagedReference
     private List<TodoList> todoLists = new ArrayList<>();
 
+    //util method to add list to user
+    public void addTodoList(TodoList todoList) {
+        todoLists.add(todoList);
+        todoList.setUser(this);
+    }
+
 
     // UserDetails methods
     @Override

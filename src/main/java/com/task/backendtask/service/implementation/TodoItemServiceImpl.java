@@ -2,31 +2,41 @@ package com.task.backendtask.service.implementation;
 
 import com.task.backendtask.dto.StatusUpdateDTO;
 import com.task.backendtask.entity.TodoItem;
-import com.task.backendtask.entity.enums.Status;
+import com.task.backendtask.entity.TodoList;
+import com.task.backendtask.entity.User;
 import com.task.backendtask.repository.TodoItemRepository;
+import com.task.backendtask.repository.TodoListRepository;
+import com.task.backendtask.repository.UserRepository;
 import com.task.backendtask.service.TodoItemService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class TodoItemServiceImpl implements TodoItemService {
 
     private final TodoItemRepository todoItemRepository;
+    private final UserRepository userRepository;
+    private final TodoListRepository todoListRepository;
 
     @Autowired
-    public TodoItemServiceImpl(TodoItemRepository todoItemRepository) {
+    public TodoItemServiceImpl(TodoItemRepository todoItemRepository, UserRepository userRepository, TodoListRepository todoListRepository) {
         this.todoItemRepository = todoItemRepository;
+        this.userRepository = userRepository;
+        this.todoListRepository = todoListRepository;
     }
 
 
     @Override
-    public Optional<TodoItem> getTodoItemById(Long todoItemId) {
-        return todoItemRepository.findById(todoItemId);
+    public TodoItem getTodoItemById(Long todoItemId) {
+        return todoItemRepository.findById(todoItemId).orElseThrow(() -> new NoSuchElementException("item does not exist"));
     }
 
     @Override
@@ -35,18 +45,28 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
-    public TodoItem createTodoItem(TodoItem todoItem) {
-        if (todoItem.getDueDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("due date cannot be before current date");
+    @Transactional
+    public TodoItem createTodoItem(Long todoListId, TodoItem todoItem) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        User user = userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        TodoList todoList = todoListRepository.findById(todoListId)
+                .orElseThrow(() -> new NoSuchElementException("TodoList not found"));
+
+        if(!todoList.getUser().equals(user)) {
+            throw new NoSuchElementException("User not authorized");
         }
+        todoList.addTodoItem(todoItem);
+
         return todoItemRepository.save(todoItem);
     }
 
-    // TODO: add better exception handling later
+
     @Override
     public TodoItem updateTodoItemStatus(Long todoItemId, StatusUpdateDTO status) {
-        Optional<TodoItem> optionalTodoItem = Optional.ofNullable(todoItemRepository.findById(todoItemId).orElseThrow(() -> new NoSuchElementException()));
-        TodoItem todoItem = optionalTodoItem.get();
+        TodoItem todoItem = todoItemRepository.findById(todoItemId).orElseThrow(() -> new NoSuchElementException("item does not exist"));
         todoItem.setStatus(status.getStatus());
         return todoItemRepository.save(todoItem);
     }

@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRegistrationDTO {
 
+    @NotNull
+    @Size(min = 3, max = 30)
     private String username;
     @NotNull
     @Size(min = 3, max = 30, message = "password must be between 3 and 30 characters long")
