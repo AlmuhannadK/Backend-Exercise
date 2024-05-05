@@ -35,11 +35,6 @@ public class TodoItemServiceImpl implements TodoItemService {
 
 
     @Override
-    public TodoItem getTodoItemById(Long todoItemId) {
-        return todoItemRepository.findById(todoItemId).orElseThrow(() -> new NoSuchElementException("item does not exist"));
-    }
-
-    @Override
     public List<TodoItem> getAllTodoItems() {
         return todoItemRepository.findAll();
     }
@@ -55,18 +50,23 @@ public class TodoItemServiceImpl implements TodoItemService {
         TodoList todoList = todoListRepository.findById(todoListId)
                 .orElseThrow(() -> new NoSuchElementException("TodoList not found"));
 
-        if(!todoList.getUser().equals(user)) {
-            throw new NoSuchElementException("User not authorized");
+        if (user.getTodoLists() == null || user.getTodoLists().isEmpty()) {
+            TodoList newTodoList = new TodoList();
+            user.addTodoList(newTodoList);
+            newTodoList.setUser(user);
+            newTodoList.addTodoItem(todoItem);
+            todoListRepository.save(todoList);
         }
-        todoList.addTodoItem(todoItem);
 
+        todoList.addTodoItem(todoItem);
         return todoItemRepository.save(todoItem);
     }
 
 
     @Override
     public TodoItem updateTodoItemStatus(Long todoItemId, StatusUpdateDTO status) {
-        TodoItem todoItem = todoItemRepository.findById(todoItemId).orElseThrow(() -> new NoSuchElementException("item does not exist"));
+        TodoItem todoItem = todoItemRepository.findById(todoItemId)
+                .orElseThrow(() -> new NoSuchElementException("item does not exist"));
         todoItem.setStatus(status.getStatus());
         return todoItemRepository.save(todoItem);
     }

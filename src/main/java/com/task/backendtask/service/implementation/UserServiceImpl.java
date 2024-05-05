@@ -38,7 +38,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsernameIgnoreCase(username);
+        User user = userRepository.findByUsernameIgnoreCase(username).orElseThrow(() -> new NoSuchElementException("user does not exist"));
+        return Optional.of(user);
     }
 
 }

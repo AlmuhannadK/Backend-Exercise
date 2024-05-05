@@ -2,6 +2,7 @@ package com.task.backendtask.service.implementation;
 
 import com.task.backendtask.dto.AuthenticationResponse;
 import com.task.backendtask.dto.UserRegistrationDTO;
+import com.task.backendtask.entity.TodoList;
 import com.task.backendtask.entity.User;
 import com.task.backendtask.entity.enums.Role;
 import com.task.backendtask.repository.UserRepository;
@@ -11,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,6 +39,7 @@ public class AuthenticationService {
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
+        user.setTodoLists(new ArrayList<>());
 
         user = userRepository.save(user);
 

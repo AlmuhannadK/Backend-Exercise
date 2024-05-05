@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,17 +31,28 @@ public class TodoListServiceImpl implements TodoListService {
 
     @Override
     public TodoList getTodoListById(Long todoListId) {
-        return todoListRepository.findById(todoListId).orElseThrow(() -> new NoSuchElementException("List not found"));
+        return todoListRepository.findById(todoListId)
+                .orElseThrow(() -> new NoSuchElementException("List not found"));
     }
 
     @Override
     public TodoList getTodoListByTitle(String listTitle) {
-        return todoListRepository.findTodoListByTitleIgnoreCase(listTitle);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        User user = userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        return todoListRepository.findTodoListByTitleIgnoreCaseAndUserId(listTitle, user.getId())
+                .orElseThrow(() -> new NoSuchElementException("List not found"));
     }
 
     @Override
     public List<TodoList> getAllTodoLists() {
-        return todoListRepository.findAll();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+        User user = userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+        return todoListRepository.findByUserId(user.getId());
     }
 
     @Override
@@ -51,7 +61,7 @@ public class TodoListServiceImpl implements TodoListService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = ((UserDetails) authentication.getPrincipal()).getUsername();
         User user = userRepository.findByUsernameIgnoreCase(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
         todoList.setUser(user);
         return todoListRepository.save(todoList);
     }

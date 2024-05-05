@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Optional<User>> getUserByUsername(@RequestParam(value = "username") String username) {
+    public ResponseEntity<Optional<User>> getUserByUsername(@RequestParam(value = "username", required = true) String username) {
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
 

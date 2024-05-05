@@ -25,7 +25,6 @@ public class AuthenticationController {
     }
 
 
-    // handle registration
     @PostMapping("/registration")
     public ResponseEntity<AuthenticationResponse> registerUser(@Valid @RequestBody UserRegistrationDTO user) {
         return ResponseEntity.ok(authenticationService.register(user));
@@ -35,7 +34,5 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> loginUser(@Valid @RequestBody User user) {
         return ResponseEntity.ok(authenticationService.authenticate(user));
     }
-
-
 
 }
