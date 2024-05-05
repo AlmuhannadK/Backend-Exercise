@@ -141,7 +141,7 @@ This project is a Todo List API developed using Spring Boot. It provides endpoin
   - Response: `200 OK` with created todo list details
 
 
-## Todo Items Controller
+## Todo Items Controller (/api/v1/todo-items)
 
 ### Get All Todo Items (Admin only)
 - **GET /admin**
@@ -191,7 +191,7 @@ some feature that I would like to add in the near future.
 
 ### Entity-to-DTO Mapping with MapStruct
 
-- Use MapStruct to simplify the conversion between entity models and DTOs to ensure automatic handling of conversion
+- Use MapStruct to simplify conversion between entity models and DTOs
 
 ### Logging Capabilities
 
