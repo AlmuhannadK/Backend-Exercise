@@ -25,7 +25,7 @@ This project is a Todo List API developed using Spring Boot. It provides endpoin
 
 ### Prerequisites
 
-- JDK 11+
+- JDK 17+
 - Maven
 
 ### Installing and running
